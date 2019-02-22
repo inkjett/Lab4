@@ -61,25 +61,30 @@ namespace Lab4
         public void arr_change_line(int[,] arr_in, ref int [,] arr_out) // метод замена строк средней и крайней
         {
 
-            //ArrayList [,] arr_out=new ArrayList [arr_in.GetLength(0), arr_in.GetLength(1)];
+            
             Int32 temp_arr_number;
             //Int32[] temp_arr;  
             Int32 Middel_line = 0;
-            arr_out = new int[3, 3];
+            arr_out = new int[arr_in.GetLength(0), arr_in.GetLength(1)];
             if (arr_in.GetLength(0) % 2 != 0)//опрделение строки четные или нет
             {
-                Middel_line = (arr_in.GetLength(0) / 2)+1;         //определение средней строки       
+                Middel_line = (arr_in.GetLength(0) / 2);         //определение средней строки       
                 for (int i = 0; i < arr_in.GetLength(0); i++)
                 {
                     temp_arr_number = arr_in[0, i];
                     arr_in[0, i] = arr_in[Middel_line, i];
-                    arr_in[Middel_line, i]=arr_out[Middel_line, temp_arr_number];
+                    arr_in[Middel_line, i]=temp_arr_number;
                 }
 
             }
-
-            arr_out.CopyTo(arr_in, 0);
-
+            for(int i=0;i<arr_in.GetLength(0);i++)
+            {
+                for (int j=0;j<arr_in.GetLength(1);j++)
+                {
+                    arr_out[i, j] = arr_in[i, j];
+                }
+            }
+            
         }
 
         public Form1()
@@ -117,6 +122,8 @@ namespace Lab4
         private void button4_Click(object sender, EventArgs e) //вывод таблицы с поменеными строками 
         {
 
+            dataGridView2.ColumnHeadersVisible = false;
+            dataGridView2.RowHeadersVisible = false;
             arr_change_line(Arr_Main, ref Arr_Main_change_line);
             Arr_to_Form(Arr_Main_change_line, ref dataGridView2);
 
