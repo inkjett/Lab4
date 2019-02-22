@@ -15,7 +15,9 @@ namespace Lab4
     {
 
         Int32[,] Arr_Main;
+        Int32[,] Arr_Main_change_line;
         Int32 Size1, Size2;
+
 
         public void Arr_random_gen(Int32 a, Int32 b, ref Int32 [,] arr_out) // метод заполнения массивва рандомными числами
         {
@@ -27,8 +29,8 @@ namespace Lab4
         
         public void Arr_to_Form(int[,] arr_in, ref DataGridView out_Data_Grid)//метод вывода масива в таблицу
         {
-            out_Data_Grid.RowCount = arr_in.GetLength(0);
-            out_Data_Grid.ColumnCount = arr_in.GetLength(1);
+            out_Data_Grid.RowCount = arr_in.GetLength(0); //Количество строк в таблицу
+            out_Data_Grid.ColumnCount = arr_in.GetLength(1); // Количество стобцов
             for (int i = 0; i < arr_in.GetLength(0); i++)
             {
                 for (int j = 0; j < arr_in.GetLength(1); j++)
@@ -56,27 +58,28 @@ namespace Lab4
             
         }
 
-        public void arr_change_line(int [,] arr_in, ref List<List<Int32>> arr_out) // замена строк средней и крайней
+        public void arr_change_line(int[,] arr_in, ref int [,] arr_out) // метод замена строк средней и крайней
         {
-            arr_out = new List<List<Int32>>();
-            Decimal Middel_line = 0;
-            if (arr_in.GetLength(0) % 2 != 0)
+
+            //ArrayList [,] arr_out=new ArrayList [arr_in.GetLength(0), arr_in.GetLength(1)];
+            //Int32 temp_arr_number;
+            Int32[] temp_arr;  
+            Int32 Middel_line = 0;
+            temp_arr = new int[1];
+            if (arr_in.GetLength(0) % 2 != 0)//опрделение строки четные или нет
             {
-                Middel_line = arr_in.GetLength(0) / 2;
-                Math.Ceiling(Middel_line);
+                Middel_line = (arr_in.GetLength(0) / 2)+1;         //определение средней строки       
+                for (int i = 0; i < arr_in.GetLength(0); i++)
+                {
+                    temp_arr[0] = arr_in[0, i];
+                    arr_in[0, i] = arr_in[Middel_line, i];
+                    arr_in[Middel_line, i]=arr_out[Middel_line,temp_arr[0]];
+                }
+
             }
 
-            //list.Add(new List<int>);//добавление новой строки
-            //list[0].Add(i)//добавление столбца в новую строку
-            //list[0][0];//обращение к первому столбцу первой строки
+            arr_out.CopyTo(arr_in, 0);
 
-
-            for (Int32 i=0; i<Size1; i++)
-            {
-                arr_out[0].Add(i);
-
-
-            };
         }
 
         public Form1()
@@ -111,8 +114,11 @@ namespace Lab4
             Arr_to_Form(Arr_Main,ref dataGridView1);
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e) //вывод таблицы с поменеными строками 
         {
+
+            arr_change_line(Arr_Main, ref Arr_Main_change_line);
+            Arr_to_Form(Arr_Main_change_line, ref dataGridView2);
 
         }
 
