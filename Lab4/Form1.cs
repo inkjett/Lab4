@@ -62,18 +62,18 @@ namespace Lab4
         {
 
             //ArrayList [,] arr_out=new ArrayList [arr_in.GetLength(0), arr_in.GetLength(1)];
-            //Int32 temp_arr_number;
-            Int32[] temp_arr;  
+            Int32 temp_arr_number;
+            //Int32[] temp_arr;  
             Int32 Middel_line = 0;
-            temp_arr = new int[1];
+            arr_out = new int[3, 3];
             if (arr_in.GetLength(0) % 2 != 0)//опрделение строки четные или нет
             {
                 Middel_line = (arr_in.GetLength(0) / 2)+1;         //определение средней строки       
                 for (int i = 0; i < arr_in.GetLength(0); i++)
                 {
-                    temp_arr[0] = arr_in[0, i];
+                    temp_arr_number = arr_in[0, i];
                     arr_in[0, i] = arr_in[Middel_line, i];
-                    arr_in[Middel_line, i]=arr_out[Middel_line,temp_arr[0]];
+                    arr_in[Middel_line, i]=arr_out[Middel_line, temp_arr_number];
                 }
 
             }
