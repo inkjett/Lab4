@@ -16,6 +16,7 @@ namespace Lab4
 
         Int32[,] Arr_Main;
         Int32[,] Arr_Main_change_line;
+        Int32[,] Arr_Main_min_value;
         Int32 Size1, Size2;
 
 
@@ -87,6 +88,75 @@ namespace Lab4
             
         }
 
+        public void add_colum_min_value(int[,] arr_in, ref int [,] arr_out) // метод добавления столбца после минимального занчения
+        {
+            Int32 min_value = arr_in[0, 0];
+            Int32 count = 0;
+           
+            for (int i=0; i<arr_in.GetLength(0); i++ ) // определение минимального значения масиива
+            {
+                for (int j=0; j<arr_in.GetLength(1);j++)
+                {
+                    
+                    if (arr_in[i, j] < min_value  )
+                    {
+                        min_value = arr_in[i, j];                        
+                    }
+                }
+
+            
+            }
+            for (int i = 0; i < arr_in.GetLength(0); i++) // определение количества добавляемых столбцов
+            {
+                for (int j = 0; j < arr_in.GetLength(1); j++)
+                {
+                    if (min_value == arr_in[i, j])
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            arr_out = new int[arr_in.GetLength(0), arr_in.GetLength(1) + count]; // добавление столбца GetLength(1) - столбцы, GetLength(0) - стороки 
+            // i - столбец  j - строка
+            //Int32 count_for_colum = 0;
+            int jj;
+            Int32 temp_count;
+             
+            for (jj = 0; jj < arr_in.GetLength(1); jj++) // выбираем столбец
+            {                
+                for (int i = 0; i < arr_in.GetLength(0); i++) // копируем строки в массиве 
+                {
+                    arr_out[i, jj] = arr_in[i, jj];
+                }
+                temp_count = 0;
+                for (int temp_i=0; temp_i<arr_out.GetLength(0);temp_i++)
+                {                    
+                    if ((arr_in[temp_i, jj] == min_value)&&(temp_count==0))
+                    {                        
+                        for (int temp_ii = 0; temp_ii < arr_in.GetLength(1); temp_ii++)
+                        {                            
+                            arr_out[temp_ii, jj+1] = arr_in[temp_ii, 1];                                         
+                        }                                  
+                        temp_count++;                     
+                    }
+                    if (jj == 0 && temp_count>0)
+                    {
+                        for (int temp_ii = 0; temp_ii < arr_in.GetLength(1); temp_ii++)
+                        {
+                            arr_out[temp_ii, jj + 2] = arr_in[temp_ii, 1];
+                        }
+                        jj++;
+                    }
+                }
+                if (temp_count>=1)
+                {
+                   jj++;
+                }
+            }
+
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -127,6 +197,12 @@ namespace Lab4
             arr_change_line(Arr_Main, ref Arr_Main_change_line);
             Arr_to_Form(Arr_Main_change_line, ref dataGridView2);
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            add_colum_min_value(Arr_Main, ref Arr_Main_min_value);
+            Arr_to_Form(Arr_Main_min_value, ref dataGridView2);
         }
 
         private void button1_Click_1(object sender, EventArgs e) // расчет саммы элементов матрицы
