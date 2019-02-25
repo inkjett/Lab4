@@ -100,7 +100,9 @@ namespace Lab4
                     
                     if (arr_in[i, j] < min_value  )
                     {
-                        min_value = arr_in[i, j];                        
+                        min_value = arr_in[i, j];
+                        j++;
+                        j++;
                     }
                 }
 
@@ -122,23 +124,25 @@ namespace Lab4
             //Int32 count_for_colum = 0;
             int jj;
             Int32 temp_count;
-             
-            for (jj = 0; jj < arr_in.GetLength(1); jj++) // выбираем столбец
+            Int32 value_null_row = 0; 
+            for (jj = 0; jj < arr_out.GetLength(1); jj++) // выбираем столбец
             {                
-                for (int i = 0; i < arr_in.GetLength(0); i++) // копируем строки в массиве 
+                for (int i = 0; i < arr_out.GetLength(0); i++) // копируем строки в массиве 
                 {
-                    arr_out[i, jj] = arr_in[i, jj];
+                    arr_out[i, jj] = arr_in[i, jj+value_null_row];
                 }
                 temp_count = 0;
                 for (int temp_i=0; temp_i<arr_out.GetLength(0);temp_i++)
                 {                    
-                    if ((arr_in[temp_i, jj] == min_value)&&(temp_count==0))
+                    if ((arr_in[temp_i, jj+value_null_row] == min_value)&&(temp_count==0))
                     {                        
                         for (int temp_ii = 0; temp_ii < arr_in.GetLength(1); temp_ii++)
                         {                            
                             arr_out[temp_ii, jj+1] = arr_in[temp_ii, 1];                                         
                         }                                  
-                        temp_count++;                     
+                        temp_count++;
+                        value_null_row--;
+
                     }
                     if (jj == 0 && temp_count>0)
                     {
@@ -146,12 +150,13 @@ namespace Lab4
                         {
                             arr_out[temp_ii, jj + 2] = arr_in[temp_ii, 1];
                         }
-                        jj++;
-                    }
+                        jj++;                        
+                    }                    
                 }
                 if (temp_count>=1)
                 {
                    jj++;
+                   
                 }
             }
 
